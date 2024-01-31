@@ -326,8 +326,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" name="submit" type="submit">Submit form</button>
+                                        <div class="form-group text-right">
+                                            <button class="btn btn-primary" type="submit" name="submit">
+                                                <i class="fas fa-plus"></i> Tambah Data
+                                            </button>
                                         </div>
                                     </div>
                                 </form>

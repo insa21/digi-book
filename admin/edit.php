@@ -68,14 +68,14 @@ if (isset($_GET['isbn'])) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="insert.php">
+                            <a class="nav-link" href="insert.php">
                                 <i class="ni ni-books text-orange"></i>
                                 <span class="nav-link-text">Tambah Buku</span>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="lihat_data.php">
+                            <a class="nav-link active" href="lihat_data.php">
                                 <i class="ni ni-bullet-list-67 text-info"></i>
                                 <span class="nav-link-text">Lihat Data Buku</span>
                             </a>
@@ -191,7 +191,7 @@ if (isset($_GET['isbn'])) {
                                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                     <li class="breadcrumb-item"><a href="dashboard.php"><i class="fas fa-home"></i></a></li>
                                     <li class="breadcrumb-item"><a href="dashboard.php">Dashboards</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Tambah Data Buku</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Edit Data Buku</li>
                                 </ol>
                             </nav>
                         </div>
@@ -240,7 +240,7 @@ if (isset($_GET['isbn'])) {
                                         </div>
                                         <div class="col-md-4 mb-4">
                                             <label class="form-control-label" for="isbn"> ISBN :</label>
-                                            <input type="text" class="form-control" id="isbn" name="isbn" placeholder="Masukan ISBN" value="<?php echo $row['isbn']; ?>" required>
+                                            <input type="text" class="form-control" id="isbn" name="isbn" placeholder="Masukan ISBN" value="<?php echo $row['isbn']; ?>" readonly>
                                             <br>
                                             <label class="form-control-label" for="judul"> Judul Buku</label>
                                             <input type="text" class="form-control" id="judul" name="judul" placeholder="Judul Buku" value="<?php echo $row['judul']; ?>" required>
@@ -326,13 +326,15 @@ if (isset($_GET['isbn'])) {
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
-                                                        <textarea class="form-control" name="synopsis" id="synopsis" rows="4" placeholder="Masukan Synopsis" required></textarea>
+                                                        <textarea class="form-control" name="synopsis" id="synopsis" rows="4" placeholder="Masukan Synopsis" required><?php echo $row['synopsis']; ?></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" name="submit" type="submit">Submit form</button>
+                                        <div class="form-group text-right">
+                                            <button class="btn btn-primary" type="submit" name="submit">
+                                                <i class="fas fa-edit"></i> Update Data
+                                            </button>
                                         </div>
                                     </div>
                                 </form>
