@@ -1,3 +1,12 @@
+<?php
+session_start();
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php"); // Redirect ke halaman login jika belum login
+    exit();
+}
+?>
+
 <html lang="id">
 
 <head>
@@ -255,8 +264,8 @@
                                             <label class="form-control-label" for="bahasa"> Bahasa :</label>
                                             <input type="text" class="form-control" id="bahasa" name="bahasa" placeholder="Masukan Bahasa" value="" required>
                                             <br>
-                                            <label class="form-control-label" for="link"> Link :</label>
-                                            <input type="text" class="form-control" id="link" name="link" placeholder="Masukan Link" value="" required>
+                                            <label class="form-control-label" for="link">Pilih File:</label>
+                                            <input type="file" class="form-control" id="link" name="link" accept=".pdf, .doc, .docx" required>
                                         </div>
                                         <div class="col-md-2 mb-3">
                                             <label class="form-control-label" for="tanggal_terbit"> Tanggal Terbit :</label>

@@ -1,3 +1,12 @@
+<?php
+session_start();
+// Periksa apakah pengguna sudah login
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php"); // Redirect ke halaman login jika belum login
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -246,6 +255,7 @@
                     </div>
                     <!-- Modal - Edit event -->
                     <!--* Modal body *-->
+
                     <!--* Modal footer *-->
                     <!--* Modal init *-->
                     <div class="modal fade" id="edit-event" tabindex="-1" role="dialog" aria-labelledby="edit-event-label" aria-hidden="true">
