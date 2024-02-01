@@ -260,8 +260,8 @@ if (isset($_GET['isbn'])) {
                                             <label class="form-control-label" for="bahasa"> Bahasa :</label>
                                             <input type="text" class="form-control" id="bahasa" name="bahasa" placeholder="Masukan Bahasa" value="<?php echo $row['bahasa']; ?>" required>
                                             <br>
-                                            <label class="form-control-label" for="link"> Link :</label>
-                                            <input type="text" class="form-control" id="link" name="link" placeholder="Masukan Link" value="<?php echo $row['link']; ?>" required>
+                                            <label class="form-control-label" for="link"> Upload File Link :</label>
+                                            <input type="file" class="form-control" id="link" name="link" required value="<?php echo $row['link']; ?>">
                                         </div>
                                         <div class="col-md-2 mb-3">
                                             <label class="form-control-label" for="tanggal_terbit"> Tanggal Terbit :</label>

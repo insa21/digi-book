@@ -1,9 +1,3 @@
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <!DOCTYPE html>
 <html>
 
@@ -19,8 +13,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 	<!-- Custom Theme files -->
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="Cinema Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+	<meta name="keywords" content="Cinema Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, Smartphone Compatible web template, free web designs for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 	<script type="application/x-javascript">
 		addEventListener("load", function() {
 			setTimeout(hideURLbar, 0);
@@ -92,8 +85,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="review">
 							<div class="movie-pic">
 								<a href="single.html"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
-								<a class="button play-icon popup-with-zoom-anim text-center" href="#small-dialog">Watch now</a>
+								<a class="button play-icon popup-with-zoom-anim text-center" href="javascript:void(0);" onclick="downloadBuku('<?php echo $data['link']; ?>')">Unduh Buku</a>
 							</div>
+
+							<script>
+								function downloadBuku(link) {
+									var a = document.createElement('a');
+									a.href = "../admin/buku/" + link;
+									a.download = "nama-file-buku.pdf"; // Ganti dengan nama file yang sesuai
+									document.body.appendChild(a);
+									a.click();
+									document.body.removeChild(a);
+								}
+							</script>
+
 							<div class="review-info">
 								<a class="span" href="single.html"><?php echo $data['judul']; ?></a>
 								<p class="dirctr"><a href=""><?php echo $data['penulis']; ?>, <?php echo $data['bahasa']; ?>, </a><?php echo $data['tanggal_terbit']; ?></p>
@@ -110,93 +115,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 							</div>
 							<div id="small-dialog" class="mfp-hide">
-								<iframe src="<?php echo $data['link']; ?>" frameborder="0" allowfullscreen></iframe>
+								<embed src="<?php echo $data['link']; ?>" type="application/pdf" width="100%" height="600px" />
 							</div>
 							<div class="clearfix"></div>
 						</div>
 
-						<!-- <div class="single">
-							<h3>Lorem Ipsum IS A TENSE, TAUT, COMPELLING THRILLER</h3>
-							<p>STORY:<i> Meera and Arjun drive down Lorem Ipsum - can they survive a highway from hell?</i></p>
-						</div> -->
 						<div class="best-review">
 							<h4>SYNOPSIS :</h4>
 							<p><?php echo $data['synopsis']; ?></p>
 							<p><span><?php echo $data['penulis']; ?></span> <?php echo $data['tanggal_terbit']; ?> at <?php echo $data['jumlah_halaman']; ?> AM </p>
 						</div>
 						<div class="story-review">
-							<!-- <h4>Videos :</h4> -->
-							<div class="video" id="video">
-								<iframe src="<?php echo $data['link']; ?>" frameborder="0" allowfullscreen></iframe>
-							</div>
-						</div>
-
-						<!-- comments-section-starts -->
-						<div class="comments-section">
-							<div class="comments-section-head">
-								<div class="comments-section-head-text">
-									<h3>25 Comments</h3>
-								</div>
-								<div class="clearfix"></div>
-							</div>
-							<div class="comments-section-grids">
-								<div class="comments-section-grid">
-									<div class="col-md-2 comments-section-grid-image">
-										<img src="images/eye-brow.jpg" class="img-responsive" alt="" />
-									</div>
-									<div class="col-md-10 comments-section-grid-text">
-										<h4><a href="#">MARWA ELGENDY</a></h4>
-										<label>5/4/2014 at 22:00 </label>
-										<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
-										<span><a href="#">Reply</a></span>
-										<i class="rply-arrow"></i>
-									</div>
-									<div class="clearfix"></div>
-								</div>
-								<div class="comments-section-grid comments-section-middle-grid">
-									<div class="col-md-2 comments-section-grid-image">
-										<img src="images/beauty.jpg" class="img-responsive" alt="" />
-									</div>
-									<div class="col-md-10 comments-section-grid-text">
-										<h4><a href="#">MARWA ELGENDY</a></h4>
-										<label>5/4/2014 at 22:00 </label>
-										<p>But I must explain to you how all this idea denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
-										<span><a href="#">Reply</a></span>
-										<i class="rply-arrow"></i>
-									</div>
-									<div class="clearfix"></div>
-								</div>
-								<div class="comments-section-grid">
-									<div class="col-md-2 comments-section-grid-image">
-										<img src="images/stylish.jpg" class="img-responsive" alt="" />
-									</div>
-									<div class="col-md-10 comments-section-grid-text">
-										<h4><a href="#">MARWA ELGENDY</a></h4>
-										<label>5/4/2014 at 22:00 </label>
-										<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound but because those who do not know how to pursue pleasure rationally encounter consequences.</p>
-										<span><a href="#">Reply</a></span>
-										<i class="rply-arrow"></i>
-									</div>
-									<div class="clearfix"></div>
-								</div>
-							</div>
-						</div>
-						<!-- comments-section-ends -->
-						<div class="reply-section">
-							<div class="reply-section-head">
-								<div class="reply-section-head-text">
-									<h3>Leave Reply</h3>
-								</div>
-							</div>
-							<div class="blog-form">
-								<form>
-									<input type="text" class="text" value="Enter Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Name';}">
-									<input type="text" class="text" value="Enter Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter Email';}">
-									<input type="text" class="text" value="Subject" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Subject';}">
-									<textarea></textarea>
-									<input type="button" value="SUBMIT COMMENT">
-								</form>
-							</div>
+							<h4>Review Book :</h4>
+							<iframe src="../admin/buku/<?php echo $data['link']; ?>" width="100%" height="600px" frameborder="0" allowfullscreen></iframe>
 						</div>
 					</div>
 					<div class="col-md-3 side-bar">
@@ -212,8 +143,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
 										<p> <?= $data['judul'] ?> </p>
 									</li>
-									<div class="clearfix"> <?php } ?>
-									</div>
+								<?php } ?>
+								<div class="clearfix"></div>
 							</ul>
 						</div>
 						<div class="entertainment">

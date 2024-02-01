@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 // Periksa apakah pengguna sudah login
@@ -13,6 +12,8 @@ include 'koneksi.php';
 
 if (isset($_POST['submit'])) {
 	$isbn = $_POST['isbn'];
+	$file_nama = $_FILES['link']['name']; // Menggunakan input file untuk link
+	$file_size = $_FILES['link']['size'];
 	$foto_nama = $_FILES['photo']['name'];
 	$foto_size = $_FILES['photo']['size'];
 	$judul = $_POST['judul'];
@@ -24,13 +25,25 @@ if (isset($_POST['submit'])) {
 	$synopsis = $_POST['synopsis'];
 	$gendre = implode(", ", $_POST['genre']); // Menyesuaikan nama variabel dengan database
 	$bahasa = $_POST['bahasa'];
-	$link = $_POST['link'];
 
-	// $result = preg_replace("/\s*[a-zA-Z\/\/:\.]*youtube.com\/watch\?v=([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i", "http://www.youtube.com/embed/$1", $link);
-
-	if ($foto_size > 2097152) {
+	if ($file_size > 20971520 || $foto_size > 20971520) { // Mengubah batas ukuran menjadi 20 MB
 		header("location:lihat_data.php?pesan=size");
 	} else {
+		if ($file_nama != "") {
+			$allowed_extensions = array('doc', 'docx', 'pdf', 'txt');
+			$extension = pathinfo($file_nama, PATHINFO_EXTENSION);
+			$file_tmp = $_FILES['link']['tmp_name'];
+			$tanggal = md5(date('Y-m-d h:i:s'));
+			$file_nama_new = $tanggal . '-' . $file_nama;
+
+			if (in_array($extension, $allowed_extensions)) {
+				move_uploaded_file($file_tmp, 'buku/' . $file_nama_new);
+			} else {
+				header("location:lihat_data.php?pesan=ekstensi");
+				exit;
+			}
+		}
+
 		if ($foto_nama != "") {
 			$ekstensi_izin = array('png', 'jpg', 'jpeg');
 			$pisahkan_ekstensi = explode('.', $foto_nama);
@@ -41,25 +54,19 @@ if (isset($_POST['submit'])) {
 
 			if (in_array($ekstensi, $ekstensi_izin)) {
 				move_uploaded_file($file_tmp, 'foto/' . $foto_nama_new);
-
-				$query = mysqli_query($koneksi, "INSERT INTO buku (isbn, photo, judul, penulis, penerbit, tanggal_terbit, jumlah_halaman, kategori, synopsis, gendre, bahasa, link) VALUES ('$isbn', '$foto_nama_new', '$judul', '$penulis', '$penerbit', '$tanggal_terbit', '$jumlah_halaman', '$kategori', '$synopsis', '$gendre', '$bahasa', '$link')");
-
-				if ($query) {
-					header("location:lihat_data.php?pesan=berhasil");
-				} else {
-					header("location:lihat_data.php?pesan=gagal");
-				}
 			} else {
 				header("location:lihat_data.php?pesan=ekstensi");
+				exit;
 			}
-		} else {
-			$query = mysqli_query($koneksi, "INSERT INTO buku (isbn, judul, penulis, penerbit, tanggal_terbit, jumlah_halaman, kategori, synopsis, gendre, bahasa, link) VALUES ('$isbn', '$judul', '$penulis', '$penerbit', '$tanggal_terbit', '$jumlah_halaman', '$kategori', '$synopsis', '$gendre', '$bahasa', '$link')");
+		}
 
-			if ($query) {
-				header("location:lihat_data.php?pesan=berhasil");
-			} else {
-				header("location:lihat_data.php?pesan=gagal");
-			}
+		$query = mysqli_query($koneksi, "INSERT INTO buku (isbn, link, photo, judul, penulis, penerbit, tanggal_terbit, jumlah_halaman, kategori, synopsis, gendre, bahasa) VALUES ('$isbn', '$file_nama_new', '$foto_nama_new', '$judul', '$penulis', '$penerbit', '$tanggal_terbit', '$jumlah_halaman', '$kategori', '$synopsis', '$gendre', '$bahasa')");
+
+		if ($query) {
+			header("location:lihat_data.php?pesan=berhasil");
+		} else {
+			header("location:lihat_data.php?pesan=gagal");
 		}
 	}
 }
+?>
