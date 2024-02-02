@@ -260,8 +260,15 @@ if (isset($_GET['isbn'])) {
                                             <label class="form-control-label" for="bahasa"> Bahasa :</label>
                                             <input type="text" class="form-control" id="bahasa" name="bahasa" placeholder="Masukan Bahasa" value="<?php echo $row['bahasa']; ?>" required>
                                             <br>
-                                            <label class="form-control-label" for="link"> Upload File Link :</label>
-                                            <input type="file" class="form-control" id="link" name="link" required value="<?php echo $row['link']; ?>">
+                                            <label class="form-control-label" for="link">Upload File:</label>
+                                            <input type="file" class="form-control" id="link" name="link">
+                                            <?php
+                                            if (!empty($row['link'])) {
+                                                echo '<small class="form-text text-muted">File saat ini: ' . $row['link'] . '</small>';
+                                                echo '<input type="hidden" name="existing_link" value="' . $row['link'] . '">';
+                                            }
+                                            ?>
+
                                         </div>
                                         <div class="col-md-2 mb-3">
                                             <label class="form-control-label" for="tanggal_terbit"> Tanggal Terbit :</label>
@@ -296,20 +303,20 @@ if (isset($_GET['isbn'])) {
                                             <br>
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <label class="form-control-label" for="genre"> Gendre :</label>
+                                                    <label class="form-control-label" for="gendre"> Gendre :</label>
                                                 </div>
                                                 <div class="card-body">
                                                     <?php
-                                                    $genreBuku = array("Fantasi", "Misteri", "Romansa", "Sains Fiksi", "Petualangan", "Aksi", "Horor", "Drama", "Thriller", "Komedi");
+                                                    $gendreBuku = array("Fantasi", "Misteri", "Romansa", "Sains Fiksi", "Petualangan", "Aksi", "Horor", "Drama", "Thriller", "Komedi");
 
-                                                    foreach ($genreBuku as $genre) {
-                                                        $lowercaseGenre = strtolower(str_replace(' ', '_', $genre));
-                                                        $isChecked = in_array($lowercaseGenre, $checked) ? 'checked' : '';
+                                                    foreach ($gendreBuku as $gendre) {
+                                                        $lowercaseGendre = strtolower(str_replace(' ', '_', $gendre));
+                                                        $isChecked = in_array($lowercaseGendre, $checked) ? 'checked' : '';
                                                     ?>
 
                                                         <div class="custom-control custom-checkbox">
-                                                            <input class="custom-control-input" id="<?= $lowercaseGenre ?>" name="genre[]" type="checkbox" value="<?= $lowercaseGenre ?>" <?= $isChecked ?>>
-                                                            <label class="custom-control-label" for="<?= $lowercaseGenre ?>"><?= $genre ?></label>
+                                                            <input class="custom-control-input" id="<?= $lowercaseGendre ?>" name="gendre[]" type="checkbox" value="<?= $lowercaseGendre ?>" <?= $isChecked ?>>
+                                                            <label class="custom-control-label" for="<?= $lowercaseGendre ?>"><?= $gendre ?></label>
                                                         </div>
 
                                                     <?php } ?>

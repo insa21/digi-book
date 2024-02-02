@@ -1,18 +1,17 @@
 <?php
 session_start();
+
 // Periksa apakah pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
 	header("Location: login.php"); // Redirect ke halaman login jika belum login
 	exit();
 }
-?>
 
-<?php
 include 'koneksi.php';
 
 if (isset($_POST['submit'])) {
 	$isbn = $_POST['isbn'];
-	$file_nama = $_FILES['link']['name']; // Menggunakan input file untuk link
+	$file_nama = $_FILES['link']['name'];
 	$file_size = $_FILES['link']['size'];
 	$foto_nama = $_FILES['photo']['name'];
 	$foto_size = $_FILES['photo']['size'];
@@ -22,14 +21,19 @@ if (isset($_POST['submit'])) {
 	$tanggal_terbit = $_POST['tanggal_terbit'];
 	$jumlah_halaman = $_POST['jumlah_halaman'];
 	$kategori = $_POST['kategori'];
-	$synopsis = $_POST['synopsis'];
-	$gendre = implode(", ", $_POST['genre']); // Menyesuaikan nama variabel dengan database
+	$synopsis = mysqli_real_escape_string($koneksi, $_POST['synopsis']);
+	$gendre = implode(", ", $_POST['gendre']); // Menyesuaikan nama variabel dengan database
 	$bahasa = $_POST['bahasa'];
 
+	// Validasi ukuran file
 	if ($file_size > 20971520 || $foto_size > 20971520) { // Mengubah batas ukuran menjadi 20 MB
 		header("location:lihat_data.php?pesan=size");
+		exit;
 	} else {
-		if ($file_nama != "") {
+		// Inisialisasi variabel $foto_nama_new
+		$foto_nama_new = '';
+
+		if (!empty($file_nama)) {
 			$allowed_extensions = array('doc', 'docx', 'pdf', 'txt');
 			$extension = pathinfo($file_nama, PATHINFO_EXTENSION);
 			$file_tmp = $_FILES['link']['tmp_name'];
@@ -44,7 +48,7 @@ if (isset($_POST['submit'])) {
 			}
 		}
 
-		if ($foto_nama != "") {
+		if (!empty($foto_nama)) {
 			$ekstensi_izin = array('png', 'jpg', 'jpeg');
 			$pisahkan_ekstensi = explode('.', $foto_nama);
 			$ekstensi = strtolower(end($pisahkan_ekstensi));
@@ -64,9 +68,10 @@ if (isset($_POST['submit'])) {
 
 		if ($query) {
 			header("location:lihat_data.php?pesan=berhasil");
+			exit;
 		} else {
 			header("location:lihat_data.php?pesan=gagal");
+			exit;
 		}
 	}
 }
-?>

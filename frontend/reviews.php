@@ -58,8 +58,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="review-content">
 				<div class="top-header span_top">
 					<div class="logo">
-						<a href="index.html"><img height="55px" src="images/logo3.png" alt="" /></a>
-						<p>Nonton Gratis <br>Tanpa Karcis</p>
+						<a href="index.html"><img src="images/logo.png" alt="" /></a>
+						<p>Movie Theater</p>
 					</div>
 					<div class="search v-search">
 						<form>
@@ -70,138 +70,212 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="clearfix"></div>
 				</div>
 				<div class="reviews-section">
-					<h3 class="head">Ulasan Film</h3>
+					<!-- <h3 class="head">Books Reviews</h3> -->
 					<div class="col-md-9 reviews-grids">
+						<!-- Datanya ambil dari database -->
+						<h3 class="head">Books Reviews</h3>
+						<div class="dropdown-button">
+							<select class="dropdown" id="kategoriDropdown" tabindex="9" data-settings='{"wrapperClass":"flat"}'>
+								<option value="semua" selected>Semua Kategori</option>
+								<option value="sejarah">Sejarah</option>
+								<option value="fiksi">Fiksi</option>
+								<option value="sains">Sains</option>
+								<option value="novel">Novel</option>
+								<option value="komik">Komik</option>
+								<option value="biografi">Biografi</option>
+								<option value="teknologi">Teknologi</option>
+								<option value="pendidikan">Pendidikan</option>
+								<option value="kesehatan">Kesehatan</option>
+								<option value="lain-lain">Lain-lain</option>
+							</select>
+						</div>
+						<br>
+						<!-- Hasil pencarian dari database js ajax filenya dari kategori_pencarian.php -->
+						<div id="hasil-pencarian"></div>
 
-						<!-- Pemanggilan data dari Database -->
-						<!-- SELECT * FROM film ORDER BY isbn DESC LIMIT 5 = 
-					Membatasi jumlah data yang di tampilkan dari database   -->
-						<?php
-						include '../admin/koneksi.php';
-						$query = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY isbn DESC LIMIT 5");
-						while ($data = mysqli_fetch_array($query)) {
-						?>
-
-							<!-- End Pemanggilan data -->
-
-							<div class="review">
-								<div class="movie-pic">
-									<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a> <br><br>
-									<div class=" text-center">
-										<a href="single.php?id=<?php echo $data['isbn'] ?>" class="button play-icon popup-with-zoom-anim text-center">SEE MORE</a>
-									</div>
-								</div>
-								<div class="review-info">
-									<a class="span" href="single.php"><?php echo $data['judul']; ?></a>
-									<p class="dirctr"><a href=""><?php echo $data['penulis']; ?>, <?php echo $data['bahasa']; ?>, </a><?php echo $data['penerbit']; ?></p>
-									<p class="ratingview">IMDB Rating: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="yellow">★</font> <?php echo $data['tanggal_terbit']; ?>/10</p><br><br>
-									<p class="info">ACTORS: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $data['jumlah_halaman']; ?></p>
-									<p class="info">DIRECTION: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $data['penulis']; ?></p>
-									<p class="info">GENRE: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $data['kategori']; ?></p>
-									<p class="info">DURATION: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php echo $data['gendre']; ?> </p>
-									<!-- <p class="info">PRODUCTION: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $data['production_film']; ?> </p> -->
-									<p class="info">COUNTRY: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $data['bahasa']; ?> </p>
-									<p class="info">RESULATION: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $data['resulation_film']; ?> </p>
-
-								</div>
-								<div class="clearfix"></div>
-							</div><?php } ?>
 					</div>
-				</div>
-				<div class="col-md-3 side-bar">
-					<div class="featured">
-						<h3>Menampilkan Film Terbaru</h3>
-						<ul>
+					<div class="col-md-3 side-bar">
+						<div class="featured">
+							<h3>Displaying Latest Books</h3>
+							<ul>
+								<?php
+								include '../admin/koneksi.php';
+								$query = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY isbn DESC ");
+								while ($data = mysqli_fetch_array($query)) {
+								?>
+									<li>
+										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
+										<p> <?= $data['judul'] ?> </p>
+									</li>
+									<div class="clearfix"> <?php } ?>
+									</div>
+							</ul>
+						</div>
+
+						<div class="entertainment">
+							<h3>Recommended Books</h3>
 							<?php
 							include '../admin/koneksi.php';
-							$query = mysqli_query($koneksi, "SELECT * FROM film ORDER BY isbn DESC LIMIT 12 ");
-							while ($data = mysqli_fetch_array($query)) {
+
+							// Ambil data dari database
+							$query = mysqli_query($koneksi, "SELECT * FROM buku");
+							$dataBuku = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+							// Acak urutan data
+							shuffle($dataBuku);
+
+							// Ambil lima data teratas setelah diacak
+							$limaBukuAcak = array_slice($dataBuku, 0, 5);
+
+							// Tampilkan data
+							foreach ($limaBukuAcak as $data) {
 							?>
-								<li>
-									<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
-									<p> <?= $data['name_film'] ?> </p>
-								</li>
-								<div class="clearfix"> <?php } ?>
-								</div>
-						</ul>
-					</div>
-					<div class="entertainment">
-						<h3>Menampilkan Film Direkomendasikan</h3>
-						<?php
-						include '../admin/koneksi.php';
-						$query = mysqli_query($koneksi, "SELECT * FROM film ORDER BY isbn DESC LIMIT 10");
-						while ($data = mysqli_fetch_array($query)) {
-						?>
-							<ul>
-								<li class="ent">
-									<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
-								</li>
-								<li>
-								<li><b> <?= $data['judul'] ?> </b>
-									<p>
-								<li class="">IMDB Rating: <font color="yellow">★</font> <?php echo $data['tanggal_terbit']; ?>/10</li>
-								<!-- <li>Production : <?= $data['production_film']; ?></li> -->
-								<li>Duration : <?= $data['gendre']; ?></li>
-								</li>
-								<div class="clearfix"></div>
-							</ul><?php } ?>
+								<ul>
+									<li class="ent">
+										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
+									</li>
+									<li>
+										<a href="single.php?id=<?php echo $data['isbn'] ?>"> <b><?= $data['judul'] ?></b> </a>
+									</li>
+									<li>
+										<p><?= $data['tanggal_terbit'] ?></< /p>
+										<p><?= $data['gendre'] ?></< /p>
+										<p><?= $data['penulis'] ?></< /p>
+									</li>
+									<div class="clearfix"></div>
+								</ul>
+							<?php } ?>
+						</div>
+						<div class="might">
+							<h4>You Might Also Like</h4>
+							<div class="might-grid">
+								<?php
+								include '../admin/koneksi.php';
+
+								// Ambil data dari database
+								$queryMight = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY RAND() LIMIT 5");
+								$dataMight = mysqli_fetch_all($queryMight, MYSQLI_ASSOC);
+
+								// Tampilkan data
+								foreach ($dataMight as $bukuMight) {
+								?>
+									<div class="grid-might">
+										<a href="single.php?id=<?php echo $bukuMight['isbn'] ?>"><img src="../admin/foto/<?php echo $bukuMight['photo']; ?>" class="img-responsive" alt=""></a>
+									</div>
+									<div class="might-top">
+										<p><?php echo $bukuMight['judul']; ?></p>
+										<p href="single.php?id=<?php echo $bukuMight['isbn'] ?>"><?php echo $bukuMight['synopsis']; ?> <i> </i></p>
+									</div>
+									<div class="clearfix"></div>
+								<?php } ?>
+							</div>
+						</div>
+
+
 					</div>
 
+					<div class="clearfix"></div>
 				</div>
-
-				<div class="clearfix"></div>
 			</div>
-		</div>
-		<div class="review-slider">
-			<ul id="flexiselDemo1">
-				<?php
-				include '../admin/koneksi.php';
-				$query = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY isbn DESC LIMIT 5");
-				while ($data = mysqli_fetch_array($query)) {
-				?>
-					<li> <img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></li>
-				<?php } ?>
-			</ul>
-			<script type="text/javascript">
-				$(window).load(function() {
+			<div class="review-slider">
+				<ul id="flexiselDemo1">
+					<li><img src="images/r1.jpg" alt="" /></li>
+					<li><img src="images/r2.jpg" alt="" /></li>
+					<li><img src="images/r3.jpg" alt="" /></li>
+					<li><img src="images/r4.jpg" alt="" /></li>
+					<li><img src="images/r5.jpg" alt="" /></li>
+					<li><img src="images/r6.jpg" alt="" /></li>
+				</ul>
+				<script type="text/javascript">
+					$(window).load(function() {
 
-					$("#flexiselDemo1").flexisel({
-						visibleItems: 6,
-						animationSpeed: 1000,
-						autoPlay: true,
-						autoPlaySpeed: 3000,
-						pauseOnHover: false,
-						enableResponsiveBreakpoints: true,
-						responsiveBreakpoints: {
-							portrait: {
-								changePoint: 480,
-								visibleItems: 2
-							},
-							landscape: {
-								changePoint: 640,
-								visibleItems: 3
-							},
-							tablet: {
-								changePoint: 768,
-								visibleItems: 3
+						$("#flexiselDemo1").flexisel({
+							visibleItems: 6,
+							animationSpeed: 1000,
+							autoPlay: true,
+							autoPlaySpeed: 3000,
+							pauseOnHover: false,
+							enableResponsiveBreakpoints: true,
+							responsiveBreakpoints: {
+								portrait: {
+									changePoint: 480,
+									visibleItems: 2
+								},
+								landscape: {
+									changePoint: 640,
+									visibleItems: 3
+								},
+								tablet: {
+									changePoint: 768,
+									visibleItems: 3
+								}
 							}
-						}
+						});
 					});
-				});
-			</script>
-			<script type="text/javascript" src="js/jquery.flexisel.js"></script>
-		</div>
-		<div class="footer">
-			<h6>Disclaimer : </h6>
-			<p class="claim">InsaFilm adalah layanan streaming yang menawarkan berbagai acara TV pemenang penghargaan, film, anime, dokumenter, dan banyak lagi di ribuan perangkat yang terhubung ke Internet.</p>
-			<a href="indrasaepudin212@mail.com">indrasaepudin212@mail.com</a>
-			<div class="copyright">
-				<p> &copy; 2022 <a href="#"> InsaFilm|IndraSaepudin</a></p>
+				</script>
+				<script type="text/javascript" src="js/jquery.flexisel.js"></script>
+			</div>
+			<div class="footer">
+				<h6>Disclaimer : </h6>
+				<p class="claim">This is a freebies and not an official website, I have no intention of disclose any
+					movie, brand, news.My goal here is to train or excercise my skill and share this freebies.</p>
+				<a href="example@mail.com">example@mail.com</a>
+				<div class="copyright">
+					<p> Template by <a href="http://w3layouts.com"> W3layouts</a></p>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="clearfix"></div>
+		<div class="clearfix"></div>
 	</div>
 </body>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var dropdown = document.getElementById('kategoriDropdown');
+		var hasilPencarianDiv = document.getElementById('hasil-pencarian');
+
+		// Set nilai dropdown ke "semua" saat halaman dimuat
+		dropdown.value = 'semua';
+
+		// Kirim permintaan pencarian secara otomatis saat halaman dimuat
+		var kategori = dropdown.value;
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'kategori_pencarian.php', true);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		xhr.onload = function() {
+			if (xhr.status === 200) {
+				hasilPencarianDiv.innerHTML = xhr.responseText;
+			} else {
+				console.error('Error:', xhr.statusText);
+			}
+		};
+
+		xhr.send('kategori=' + encodeURIComponent(kategori));
+
+		// Tambahkan event listener untuk menghandle perubahan dropdown
+		dropdown.addEventListener('change', function() {
+			var kategori = dropdown.value;
+
+			if (kategori !== '0') {
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', 'kategori_pencarian.php', true);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+				xhr.onload = function() {
+					if (xhr.status === 200) {
+						hasilPencarianDiv.innerHTML = xhr.responseText;
+					} else {
+						console.error('Error:', xhr.statusText);
+					}
+				};
+
+				xhr.send('kategori=' + encodeURIComponent(kategori));
+			} else {
+				hasilPencarianDiv.innerHTML = '';
+			}
+		});
+	});
+</script>
+
 
 </html>

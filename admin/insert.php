@@ -295,17 +295,17 @@ if (!isset($_SESSION['user_id'])) {
                                             <br>
                                             <div class="card">
                                                 <div class="card-header">
-                                                    <label class="form-control-label" for="genre"> Genre :</label>
+                                                    <label class="form-control-label" for="gendre"> gendre :</label>
                                                 </div>
                                                 <div class="card-body">
                                                     <?php
-                                                    $genreBuku = array("Fantasi", "Misteri", "Romansa", "Sains Fiksi", "Petualangan", "Aksi", "Horor", "Drama", "Thriller", "Komedi");
+                                                    $gendreBuku = array("Fantasi", "Misteri", "Romansa", "Sains Fiksi", "Petualangan", "Aksi", "Horor", "Drama", "Thriller", "Komedi");
 
-                                                    foreach ($genreBuku as $genre) {
+                                                    foreach ($gendreBuku as $gendre) {
                                                     ?>
                                                         <div class="custom-control custom-checkbox">
-                                                            <input class="custom-control-input" id="<?= strtolower($genre) ?>" value="<?= strtolower($genre) ?>" name="genre[]" type="checkbox">
-                                                            <label class="custom-control-label" for="<?= strtolower($genre) ?>"><?= $genre ?></label>
+                                                            <input class="custom-control-input" id="<?= strtolower($gendre) ?>" value="<?= strtolower($gendre) ?>" name="gendre[]" type="checkbox">
+                                                            <label class="custom-control-label" for="<?= strtolower($gendre) ?>"><?= $gendre ?></label>
                                                         </div>
                                                     <?php } ?>
                                                 </div>
