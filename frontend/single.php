@@ -132,42 +132,81 @@
 					</div>
 					<div class="col-md-3 side-bar">
 						<div class="featured">
-							<h3>Menampilkan buku Terbaru</h3>
+							<h3>Displaying Latest Books</h3>
 							<ul>
 								<?php
 								include '../admin/koneksi.php';
-								$query = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY isbn DESC LIMIT 9 ");
+								$query = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY isbn DESC LIMIT 9");
 								while ($data = mysqli_fetch_array($query)) {
 								?>
 									<li>
 										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
 										<p> <?= $data['judul'] ?> </p>
 									</li>
-								<?php } ?>
-								<div class="clearfix"></div>
+									<div class="clearfix"> <?php } ?>
+									</div>
 							</ul>
 						</div>
+
 						<div class="entertainment">
-							<h3>Menampilkan buku Direkomendasikan</h3>
+							<h3>Recommended Books</h3>
 							<?php
 							include '../admin/koneksi.php';
-							$query = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY isbn DESC LIMIT 5");
-							while ($data = mysqli_fetch_array($query)) {
+
+							// Ambil data dari database
+							$query = mysqli_query($koneksi, "SELECT * FROM buku");
+							$dataBuku = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+							// Acak urutan data
+							shuffle($dataBuku);
+
+							// Ambil lima data teratas setelah diacak
+							$limaBukuAcak = array_slice($dataBuku, 0, 5);
+
+							// Tampilkan data
+							foreach ($limaBukuAcak as $data) {
 							?>
 								<ul>
 									<li class="ent">
 										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
 									</li>
 									<li>
-									<li><b> <?= $data['judul'] ?> </b>
-										<p>
-									<li class="">Tahun Terbit: <font color="yellow">★</font> <?php echo $data['tanggal_terbit']; ?></li>
-									<li>Penulis : <?= $data['penulis']; ?></li>
-									<li>Penerbit : <?= $data['penerbit']; ?></li>
+										<a href="single.php?id=<?php echo $data['isbn'] ?>"> <b><?= $data['judul'] ?></b> </a>
+									</li>
+									<li>
+										<p><?= $data['tanggal_terbit'] ?></< /p>
+										<p><?= $data['gendre'] ?></< /p>
+										<p><?= $data['penulis'] ?></< /p>
 									</li>
 									<div class="clearfix"></div>
-								</ul><?php } ?>
+								</ul>
+							<?php } ?>
 						</div>
+						<div class="might">
+							<h4>You Might Also Like</h4>
+							<div class="might-grid">
+								<?php
+								include '../admin/koneksi.php';
+
+								// Ambil data dari database
+								$queryMight = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY RAND() LIMIT 5");
+								$dataMight = mysqli_fetch_all($queryMight, MYSQLI_ASSOC);
+
+								// Tampilkan data
+								foreach ($dataMight as $bukuMight) {
+								?>
+									<div class="grid-might">
+										<a href="single.php?id=<?php echo $bukuMight['isbn'] ?>"><img src="../admin/foto/<?php echo $bukuMight['photo']; ?>" class="img-responsive" alt=""></a>
+									</div>
+									<div class="might-top">
+										<p><?php echo $bukuMight['judul']; ?></p>
+										<p href="single.php?id=<?php echo $bukuMight['isbn'] ?>"><?php echo $bukuMight['synopsis']; ?> <i> </i></p>
+									</div>
+									<div class="clearfix"></div>
+								<?php } ?>
+							</div>
+						</div>
+
 
 					</div>
 
@@ -196,11 +235,11 @@
 							responsiveBreakpoints: {
 								portrait: {
 									changePoint: 480,
-									visibleItems: 1
+									visibleItems: 2
 								},
 								landscape: {
 									changePoint: 640,
-									visibleItems: 2
+									visibleItems: 3
 								},
 								tablet: {
 									changePoint: 768,
@@ -214,18 +253,66 @@
 			</div>
 			<div class="footer">
 				<h6>Disclaimer : </h6>
-				<p class="claim">Insabuku adalah layanan streaming yang menawarkan berbagai acara TV pemenang penghargaan, buku, anime, dokumenter, dan banyak lagi di ribuan perangkat yang terhubung ke Internet.</p>
-				<a href="indrasaepudin212@mail.com">indrasaepudin212@mail.com</a>
+				<p class="claim">This is a freebies and not an official website, I have no intention of disclose any
+					movie, brand, news.My goal here is to train or excercise my skill and share this freebies.</p>
+				<a href="example@mail.com">example@mail.com</a>
 				<div class="copyright">
-					<p> &copy; 2022 <a href="#"> Insabuku|IndraSaepudin</a></p>
+					<p> Template by <a href="http://w3layouts.com"> W3layouts</a></p>
 				</div>
 			</div>
 		</div>
 		<div class="clearfix"></div>
 	</div>
 </body>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var dropdown = document.getElementById('kategoriDropdown');
+		var hasilPencarianDiv = document.getElementById('hasil-pencarian');
 
-</html>
+		// Set nilai dropdown ke "semua" saat halaman dimuat
+		dropdown.value = 'semua';
+
+		// Kirim permintaan pencarian secara otomatis saat halaman dimuat
+		var kategori = dropdown.value;
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'kategori_pencarian.php', true);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		xhr.onload = function() {
+			if (xhr.status === 200) {
+				hasilPencarianDiv.innerHTML = xhr.responseText;
+			} else {
+				console.error('Error:', xhr.statusText);
+			}
+		};
+
+		xhr.send('kategori=' + encodeURIComponent(kategori));
+
+		// Tambahkan event listener untuk menghandle perubahan dropdown
+		dropdown.addEventListener('change', function() {
+			var kategori = dropdown.value;
+
+			if (kategori !== '0') {
+				var xhr = new XMLHttpRequest();
+				xhr.open('POST', 'kategori_pencarian.php', true);
+				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+				xhr.onload = function() {
+					if (xhr.status === 200) {
+						hasilPencarianDiv.innerHTML = xhr.responseText;
+					} else {
+						console.error('Error:', xhr.statusText);
+					}
+				};
+
+				xhr.send('kategori=' + encodeURIComponent(kategori));
+			} else {
+				hasilPencarianDiv.innerHTML = '';
+			}
+		});
+	});
+</script>
+
 <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
 <script>
@@ -243,3 +330,5 @@
 		});
 	});
 </script>
+
+</html>

@@ -100,7 +100,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<ul>
 								<?php
 								include '../admin/koneksi.php';
-								$query = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY isbn DESC ");
+								$query = mysqli_query($koneksi, "SELECT * FROM buku ORDER BY isbn DESC LIMIT 9 ");
 								while ($data = mysqli_fetch_array($query)) {
 								?>
 									<li>
