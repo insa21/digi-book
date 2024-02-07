@@ -5,16 +5,13 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: login.php"); // Redirect ke halaman login jika belum login
     exit();
 }
-?>
 
-<?php
 // Sertakan file koneksi.php
 include('koneksi.php');
 
 // Selanjutnya, lanjutkan dengan penggunaan $koneksi
 $query = "SELECT * FROM events";
 $result = $koneksi->query($query);
-
 
 // Inisialisasi array untuk menyimpan data event
 $events = array();
@@ -157,9 +154,25 @@ $events_json = json_encode($events);
                                     <span class="avatar avatar-sm rounded-circle">
                                         <img alt="Image placeholder" src="../admin/backend/assets/img/theme/team-4.jpg">
                                     </span>
+                                    <?php
+                                    // Kode untuk mengambil nama admin dari database
+                                    include 'koneksi.php';
+
+                                    $query = "SELECT nama FROM login WHERE id = 1"; // Mengambil nama admin dengan ID 1
+                                    $result = mysqli_query($koneksi, $query);
+
+                                    if ($result) {
+                                        $row = mysqli_fetch_assoc($result);
+                                        $nama_admin = $row['nama'];
+                                    } else {
+                                        $nama_admin = "Admin"; // Jika ada kesalahan, gunakan nilai default
+                                    }
+                                    ?>
+
                                     <div class="media-body ml-2 d-none d-lg-block">
-                                        <span class="mb-0 text-sm  font-weight-bold">Admin</span>
+                                        <span class="mb-0 text-sm font-weight-bold"><?php echo $nama_admin; ?></span>
                                     </div>
+
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -170,20 +183,20 @@ $events_json = json_encode($events);
                                     <i class="ni ni-single-02"></i>
                                     <span>My profile</span>
                                 </a>
-                                <a href="#!" class="dropdown-item">
+                                <!-- <a href="#!" class="dropdown-item">
                                     <i class="ni ni-settings-gear-65"></i>
-                                    <span>Settings</span>
+                                    <span>Settings</span> -->
                                 </a>
                                 <a href="#!" class="dropdown-item">
                                     <i class="ni ni-calendar-grid-58"></i>
                                     <span>Activity</span>
                                 </a>
-                                <a href="#!" class="dropdown-item">
+                                <!-- <a href="#!" class="dropdown-item">
                                     <i class="ni ni-support-16"></i>
                                     <span>Support</span>
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
-                                <a href="#!" class="dropdown-item">
+                                <a href="logout.php" class="dropdown-item">
                                     <i class="ni ni-user-run"></i>
                                     <span>Logout</span>
                                 </a>
@@ -246,7 +259,7 @@ $events_json = json_encode($events);
                     include 'koneksi.php';
 
                     // Query SQL untuk mengambil data dari tabel_event
-                    $query = "SELECT * FROM tabel_event";
+                    $query = "SELECT * FROM events";
                     $result = $koneksi->query($query);
                     ?>
 
@@ -454,8 +467,11 @@ $events_json = json_encode($events);
                         });
                     });
 
+                });
+            </script>
 
-
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
                     // Inisialisasi FullCalendar
                     $('#calendar').fullCalendar({
                         header: {

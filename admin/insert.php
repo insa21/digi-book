@@ -130,9 +130,25 @@ if (!isset($_SESSION['user_id'])) {
                                     <span class="avatar avatar-sm rounded-circle">
                                         <img alt="Image placeholder" src="../admin/backend/assets/img/theme/team-4.jpg">
                                     </span>
+                                    <?php
+                                    // Kode untuk mengambil nama admin dari database
+                                    include 'koneksi.php';
+
+                                    $query = "SELECT nama FROM login WHERE id = 1"; // Mengambil nama admin dengan ID 1
+                                    $result = mysqli_query($koneksi, $query);
+
+                                    if ($result) {
+                                        $row = mysqli_fetch_assoc($result);
+                                        $nama_admin = $row['nama'];
+                                    } else {
+                                        $nama_admin = "Admin"; // Jika ada kesalahan, gunakan nilai default
+                                    }
+                                    ?>
+
                                     <div class="media-body ml-2 d-none d-lg-block">
-                                        <span class="mb-0 text-sm  font-weight-bold">Admin</span>
+                                        <span class="mb-0 text-sm font-weight-bold"><?php echo $nama_admin; ?></span>
                                     </div>
+
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -143,20 +159,20 @@ if (!isset($_SESSION['user_id'])) {
                                     <i class="ni ni-single-02"></i>
                                     <span>My profile</span>
                                 </a>
-                                <a href="#!" class="dropdown-item">
+                                <!-- <a href="#!" class="dropdown-item">
                                     <i class="ni ni-settings-gear-65"></i>
-                                    <span>Settings</span>
+                                    <span>Settings</span> -->
                                 </a>
                                 <a href="#!" class="dropdown-item">
                                     <i class="ni ni-calendar-grid-58"></i>
                                     <span>Activity</span>
                                 </a>
-                                <a href="#!" class="dropdown-item">
+                                <!-- <a href="#!" class="dropdown-item">
                                     <i class="ni ni-support-16"></i>
                                     <span>Support</span>
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
-                                <a href="#!" class="dropdown-item">
+                                <a href="logout.php" class="dropdown-item">
                                     <i class="ni ni-user-run"></i>
                                     <span>Logout</span>
                                 </a>

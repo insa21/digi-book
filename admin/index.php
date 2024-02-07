@@ -26,6 +26,11 @@ if (!isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="backend/assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css">
     <link rel="stylesheet" href="backend/assets/vendor/animate.css/animate.min.css">
     <link rel="stylesheet" href="backend/assets/vendor/sweetalert2/dist/sweetalert2.min.css">
+    <style>
+        .completed-task {
+            text-decoration: line-through;
+        }
+    </style>
 </head>
 
 <body>
@@ -130,9 +135,25 @@ if (!isset($_SESSION['user_id'])) {
                                     <span class="avatar avatar-sm rounded-circle">
                                         <img alt="Image placeholder" src="../admin/backend/assets/img/theme/team-4.jpg">
                                     </span>
+                                    <?php
+                                    // Kode untuk mengambil nama admin dari database
+                                    include 'koneksi.php';
+
+                                    $query = "SELECT nama FROM login WHERE id = 1"; // Mengambil nama admin dengan ID 1
+                                    $result = mysqli_query($koneksi, $query);
+
+                                    if ($result) {
+                                        $row = mysqli_fetch_assoc($result);
+                                        $nama_admin = $row['nama'];
+                                    } else {
+                                        $nama_admin = "Admin"; // Jika ada kesalahan, gunakan nilai default
+                                    }
+                                    ?>
+
                                     <div class="media-body ml-2 d-none d-lg-block">
-                                        <span class="mb-0 text-sm  font-weight-bold">Admin</span>
+                                        <span class="mb-0 text-sm font-weight-bold"><?php echo $nama_admin; ?></span>
                                     </div>
+
                                 </div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right">
@@ -143,18 +164,18 @@ if (!isset($_SESSION['user_id'])) {
                                     <i class="ni ni-single-02"></i>
                                     <span>My profile</span>
                                 </a>
-                                <a href="#!" class="dropdown-item">
+                                <!-- <a href="#!" class="dropdown-item">
                                     <i class="ni ni-settings-gear-65"></i>
-                                    <span>Settings</span>
+                                    <span>Settings</span> -->
                                 </a>
                                 <a href="#!" class="dropdown-item">
                                     <i class="ni ni-calendar-grid-58"></i>
                                     <span>Activity</span>
                                 </a>
-                                <a href="#!" class="dropdown-item">
+                                <!-- <a href="#!" class="dropdown-item">
                                     <i class="ni ni-support-16"></i>
                                     <span>Support</span>
-                                </a>
+                                </a> -->
                                 <div class="dropdown-divider"></div>
                                 <a href="logout.php" class="dropdown-item">
                                     <i class="ni ni-user-run"></i>
@@ -172,19 +193,19 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="header-body">
                     <div class="row align-items-center py-4">
                         <div class="col-lg-6 col-7">
-                            <h6 class="h2 text-white d-inline-block mb-0">Default</h6>
+                            <h6 class="h2 text-white d-inline-block mb-0">Home</h6>
                             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                     <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
                                     <li class="breadcrumb-item"><a href="#">Dashboards</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Default</li>
+                                    <!-- <li class="breadcrumb-item active" aria-current="page">Home</li> -->
                                 </ol>
                             </nav>
                         </div>
-                        <div class="col-lg-6 col-5 text-right">
+                        <!-- <div class="col-lg-6 col-5 text-right">
                             <a href="#" class="btn btn-sm btn-neutral">New</a>
                             <a href="#" class="btn btn-sm btn-neutral">Filters</a>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- Card stats -->
                     <div class="row">
@@ -194,22 +215,39 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Film</h5>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Buku</h5>
                                             <?php
                                             include 'koneksi.php';
                                             $get_data = mysqli_query($koneksi, "SELECT * FROM buku");
-                                            $jumlah_film = mysqli_num_rows($get_data); ?>
-                                            <span class="h2 font-weight-bold mb-0"> <?php echo $jumlah_film; ?></span>
+                                            $jumlah_buku = mysqli_num_rows($get_data);
+                                            ?>
+                                            <span class="h2 font-weight-bold mb-0"> <?php echo $jumlah_buku; ?></span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                                                <i class="ni ni-button-play"></i>
+                                                <i class="fas fa-book"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <p class="mt-3 mb-0 text-sm">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                        <span class="text-nowrap">Since last month</span>
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
+                                            <?php
+                                            include 'koneksi.php';
+
+                                            // Menghitung jumlah buku yang diimputkan dalam satu minggu terakhir
+                                            $query = "SELECT COUNT(*) AS jumlah_buku FROM buku WHERE created_at >= DATE_SUB(NOW(), INTERVAL 1 WEEK)";
+                                            $result = $koneksi->query($query);
+
+                                            if ($result) {
+                                                $row = $result->fetch_assoc();
+                                                $jumlah_buku_minggu_ini = $row['jumlah_buku'];
+                                                echo $jumlah_buku_minggu_ini;
+                                            } else {
+                                                echo "0";
+                                            }
+                                            ?>
+                                        </span>
+                                        <span class="text-nowrap">Minggu ini</span>
                                     </p>
                                 </div>
                             </div>
@@ -220,8 +258,24 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">New users</h5>
-                                            <span class="h2 font-weight-bold mb-0">2,356</span>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Jumlah Kategori</h5>
+                                            <span class="h2 font-weight-bold mb-0">
+                                                <?php
+                                                include 'koneksi.php';
+
+                                                // Query untuk menghitung jumlah kategori
+                                                $query = "SELECT COUNT(DISTINCT kategori) AS jumlah_kategori FROM buku";
+                                                $result = $koneksi->query($query);
+
+                                                if ($result) {
+                                                    $row = $result->fetch_assoc();
+                                                    $jumlah_kategori = $row['jumlah_kategori'];
+                                                    echo $jumlah_kategori;
+                                                } else {
+                                                    echo "0";
+                                                }
+                                                ?>
+                                            </span>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
@@ -230,10 +284,28 @@ if (!isset($_SESSION['user_id'])) {
                                         </div>
                                     </div>
                                     <p class="mt-3 mb-0 text-sm">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                        <span class="text-nowrap">Since last month</span>
+                                        <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>
+                                            <?php
+                                            include 'koneksi.php';
+
+                                            // Query untuk menghitung jumlah kategori sejak bulan lalu
+                                            $query = "SELECT COUNT(DISTINCT kategori) AS jumlah_kategori FROM buku WHERE isbn >= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
+                                            $result = $koneksi->query($query);
+
+                                            if ($result) {
+                                                $row = $result->fetch_assoc();
+                                                $jumlah_kategori_bulan_lalu = $row['jumlah_kategori'];
+                                                echo $jumlah_kategori_bulan_lalu;
+                                            } else {
+                                                echo "0";
+                                            }
+                                            ?>
+                                        </span>
+                                        <span class="text-nowrap">Sejak bulan lalu</span>
                                     </p>
+
                                 </div>
+
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
@@ -242,18 +314,51 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Sales</h5>
-                                            <span class="h2 font-weight-bold mb-0">924</span>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Total Acara</h5>
+                                            <span class="h2 font-weight-bold mb-0">
+                                                <?php
+                                                include 'koneksi.php';
+
+                                                // Query untuk menghitung jumlah acara yang belum selesai
+                                                $query = "SELECT COUNT(*) AS jumlah_acara FROM events WHERE completed = 0";
+                                                $result = $koneksi->query($query);
+
+                                                if ($result) {
+                                                    $row = $result->fetch_assoc();
+                                                    $jumlah_acara = $row['jumlah_acara'];
+                                                    echo $jumlah_acara;
+                                                } else {
+                                                    echo "0";
+                                                }
+                                                ?>
+                                            </span>
                                         </div>
                                         <div class="col-auto">
-                                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-                                                <i class="ni ni-money-coins"></i>
+                                            <div class="icon icon-shape bg-gradient-blue text-white rounded-circle shadow">
+                                                <i class="ni ni-calendar-grid-58"></i> <!-- Ubah icon sesuai kebutuhan -->
                                             </div>
                                         </div>
                                     </div>
                                     <p class="mt-3 mb-0 text-sm">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                        <span class="text-nowrap">Since last month</span>
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i>
+                                            <?php
+                                            include 'koneksi.php';
+
+                                            // Query untuk menghitung jumlah acara yang belum selesai pada hari ini
+                                            $today = date("Y-m-d"); // Mendapatkan tanggal hari ini
+                                            $query = "SELECT COUNT(*) AS jumlah_acara FROM events WHERE completed = 0 AND DATE(start_date) = '$today'";
+                                            $result = $koneksi->query($query);
+
+                                            if ($result) {
+                                                $row = $result->fetch_assoc();
+                                                $jumlah_acara_hari_ini = $row['jumlah_acara'];
+                                                echo $jumlah_acara_hari_ini;
+                                            } else {
+                                                echo "0";
+                                            }
+                                            ?>
+                                        </span>
+                                        <span class="text-nowrap">Hari ini</span>
                                     </p>
                                 </div>
                             </div>
@@ -264,20 +369,49 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h5 class="card-title text-uppercase text-muted mb-0">Performance</h5>
-                                            <span class="h2 font-weight-bold mb-0">49,65%</span>
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Pengguna</h5>
+                                            <?php
+                                            include 'koneksi.php';
+
+                                            // Mengambil jumlah pengguna dari database
+                                            $query = "SELECT COUNT(*) AS jumlah_pengguna FROM login";
+                                            $result = $koneksi->query($query);
+
+                                            if ($result) {
+                                                $row = $result->fetch_assoc();
+                                                $jumlah_pengguna = $row['jumlah_pengguna'];
+                                                echo '<span class="h2 font-weight-bold mb-0">' . $jumlah_pengguna . '</span>';
+                                            } else {
+                                                echo '<span class="h2 font-weight-bold mb-0">0</span>';
+                                            }
+                                            ?>
                                         </div>
                                         <div class="col-auto">
                                             <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-                                                <i class="ni ni-chart-bar-32"></i>
+                                                <i class="ni ni-single-02"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <p class="mt-3 mb-0 text-sm">
-                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                        <span class="text-nowrap">Since last month</span>
+                                        <?php
+                                        include 'koneksi.php';
+
+                                        // Mendapatkan data dari database untuk hari ini
+                                        $query = "SELECT * FROM login WHERE DATE(created_at) = CURDATE()";
+                                        $result = $koneksi->query($query);
+
+                                        if ($result) {
+                                            $jumlah_user_hari_ini = $result->num_rows;
+                                            echo '<span class="text-success mr-2"><i class="fa fa-arrow-up"></i> ' . $jumlah_user_hari_ini . '</span>';
+                                        } else {
+                                            echo '<span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 0</span>';
+                                        }
+                                        ?>
+
+                                        <span class="text-nowrap">Hari ini</span>
                                     </p>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -288,7 +422,7 @@ if (!isset($_SESSION['user_id'])) {
         <?php
         include 'koneksi.php';
         $get_data = mysqli_query($koneksi, "SELECT * FROM buku");
-        $jumlah_film = mysqli_num_rows($get_data); ?>
+        $jumlah_buku = mysqli_num_rows($get_data); ?>
         <div class="container-fluid mt--6">
             <div class="row">
                 <div class="col-xl-8">
@@ -296,7 +430,7 @@ if (!isset($_SESSION['user_id'])) {
                         <div class="card-header border-0">
                             <div class="row align-items-center">
                                 <div class="col">
-                                    <h3 class="mb-0">Jumlah Film : <?php echo $jumlah_film; ?></h3>
+                                    <h3 class="mb-0">Buku Terbaru </h3>
                                     <!-- <h3 class="mb-0"></h3> -->
                                 </div>
                                 <!-- <div class="col text-right">
@@ -320,7 +454,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <?php
                                 include 'koneksi.php';
                                 // $no = 1;
-                                $get_data = mysqli_query($koneksi, "SELECT * FROM buku  ORDER BY isbn DESC LIMIT 7");
+                                $get_data = mysqli_query($koneksi, "SELECT * FROM buku  ORDER BY isbn DESC LIMIT 8");
                                 // $jumlahfilm = mysqli_num_rows($get_data);
                                 while ($data = mysqli_fetch_array($get_data)) {
                                 ?>
@@ -339,19 +473,56 @@ if (!isset($_SESSION['user_id'])) {
                 </div>
                 <div class="col-xl-4">
                     <div class="card">
-                        <div class="card-header bg-transparent">
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
-                                    <h5 class="h3 mb-0">Total orders</h5>
-                                </div>
-                            </div>
+                        <div class="card-header">
+                            <!-- Title -->
+                            <h5 class="h3 mb-0">To do list</h5>
                         </div>
-                        <div class="card-body">
-                            <!-- Chart -->
-                            <div class="chart">
-                                <canvas id="chart-bars" class="chart-canvas"></canvas>
-                            </div>
+                        <!-- Card body -->
+                        <div class="card-body p-0">
+                            <!-- List group -->
+                            <ul class="list-group list-group-flush" data-toggle="checklist">
+                                <?php
+                                include 'koneksi.php';
+
+                                $sql = "SELECT * FROM events WHERE completed = 0 LIMIT 5"; // Mengambil tugas yang belum dicentang
+                                $result = $koneksi->query($sql);
+
+                                // Definisikan variabel index di sini
+                                $index = 1;
+
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        // Menghilangkan bagian "bg-" dari nilai warna
+                                        $colorClass = str_replace('bg-', '', $row["color"]);
+                                        // Tentukan kelas untuk efek strikethrough
+                                        $completedClass = $row["completed"] == 1 ? 'completed-task' : '';
+                                        echo '<li class="checklist-entry list-group-item flex-column align-items-start py-4 px-4">';
+                                        echo '<div class="checklist-item checklist-item-' . $colorClass . '">';
+                                        echo '<div class="checklist-info">';
+                                        // Tambahkan kelas untuk efek strikethrough pada judul tugas
+                                        echo '<h5 class="checklist-title mb-0 ' . $completedClass . '">' . $row["title"] . '</h5>';
+                                        echo '<small>' . date("d-m-Y", strtotime($row["start_date"])) . '</small>';
+                                        echo '</div>';
+                                        echo '<div>';
+                                        // Tampilkan deskripsi tugas
+                                        echo '<p>' . $row["description"] . '</p>';
+                                        // Buat ID yang unik untuk setiap checkbox
+                                        $checkboxID = 'chk-todo-task-' . $index;
+                                        echo '<div class="custom-control custom-checkbox custom-checkbox-' . $colorClass . ';">';
+                                        echo '<input class="custom-control-input" id="' . $checkboxID . '" type="checkbox" ' . ($row["completed"] == 1 ? 'checked' : '') . ' onclick="updateCheckbox(' . $row["id"] . ', this.checked)">';
+                                        echo '<label class="custom-control-label" for="' . $checkboxID . '"></label>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</li>';
+                                        $index++;
+                                    }
+                                } else {
+                                    echo "Tidak ada tugas yang belum selesai.";
+                                }
+                                $koneksi->close();
+                                ?>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -362,10 +533,11 @@ if (!isset($_SESSION['user_id'])) {
                 <div class="row align-items-center justify-content-lg-between">
                     <div class="col-lg-6">
                         <div class="copyright text-center text-lg-left text-muted">
-                            &copy; 2019 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                            &copy; <?php echo date("Y"); ?> <a href="" class="font-weight-bold ml-1" target="_blank">DigiBook</a> | Buku Digital
                         </div>
                     </div>
-                    <div class="col-lg-6">
+
+                    <!-- <div class="col-lg-6">
                         <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                             <li class="nav-item">
                                 <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
@@ -380,7 +552,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <a href="https://www.creative-tim.com/license" class="nav-link" target="_blank">License</a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                 </div>
             </footer>
         </div>
@@ -400,6 +572,27 @@ if (!isset($_SESSION['user_id'])) {
     <script src="../admin/backend/assets/js/argon.js?v=1.1.0"></script>
     <!-- Demo JS - remove this in your project -->
     <script src="../admin/backend/assets/js/demo.min.js"></script>
+
+    <script>
+        function updateCheckbox(taskId, isChecked) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                    // Tambahkan atau hapus kelas 'completed-task' berdasarkan nilai isChecked
+                    var titleElement = document.querySelector('#task-title-' + taskId);
+                    if (isChecked) {
+                        titleElement.classList.add('completed-task');
+                    } else {
+                        titleElement.classList.remove('completed-task');
+                    }
+                }
+            };
+            xhttp.open("POST", "update_checkbox.php", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("task_id=" + taskId + "&checkbox_value=" + (isChecked ? 1 : 0));
+        }
+    </script>
 </body>
 
 </html>
