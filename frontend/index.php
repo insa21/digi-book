@@ -72,7 +72,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					?>
 						<li>
 							<!-- <a href="single.php?id=<?= $data['isbn']; ?>"> -->
-							<img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" />
+							<img src="http://localhost/digi-book/admin/foto/<?php echo $data['photo']; ?>" alt="" />
 							<!-- </a> -->
 						</li>
 					<?php } ?>

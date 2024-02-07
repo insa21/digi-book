@@ -145,14 +145,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Footer -->
     <footer class="py-5" id="footer-main">
         <div class="container">
-            <div class="row align-items-center justify-content-xl-between">
+            <div class="row  justify-content-xl-between">
                 <div class="col-xl-6">
-                    <div class="copyright text-center text-xl-left text-muted">
-                        &copy; 2019 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                    <div class="copyright text-muted text-right">
+                        <!-- &copy; <?php echo date("Y"); ?> <a href="" class="font-weight-bold ml-1" target="_blank">DigiBook</a> | Buku Digital -->
                     </div>
                 </div>
                 <div class="col-xl-6">
-                    <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                    <!-- <ul class="nav nav-footer justify-content-center justify-content-xl-end">
                         <li class="nav-item">
                             <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
                         </li>
@@ -165,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <li class="nav-item">
                             <a href="https://www.creative-tim.com/license" class="nav-link" target="_blank">License</a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
         </div>

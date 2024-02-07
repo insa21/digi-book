@@ -75,7 +75,7 @@ if (!isset($_SESSION['user_id'])) {
                         <li class="nav-item">
                             <a class="nav-link" href="calender.php">
                                 <i class="ni ni-calendar-grid-58 text-red"></i>
-                                <span class="nav-link-text">Calendar</span>
+                                <span class="nav-link-text">Kalendar</span>
                             </a>
                         </li>
                     </ul>

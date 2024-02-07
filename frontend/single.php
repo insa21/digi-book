@@ -84,14 +84,14 @@
 						?>
 						<div class="review">
 							<div class="movie-pic">
-								<a href="single.html"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
+								<a href="single.html"><img src="http://localhost/digi-book/admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
 								<a class="button play-icon popup-with-zoom-anim text-center" href="javascript:void(0);" onclick="downloadBuku('<?php echo $data['link']; ?>')">Unduh Buku</a>
 							</div>
 
 							<script>
 								function downloadBuku(link) {
 									var a = document.createElement('a');
-									a.href = "../admin/buku/" + link;
+									a.href = "http://localhost/digi-book/admin/buku/" + link;
 									a.download = "nama-file-buku.pdf"; // Ganti dengan nama file yang sesuai
 									document.body.appendChild(a);
 									a.click();
@@ -128,7 +128,7 @@
 						</div>
 						<div class="story-review">
 							<h4>Review Book :</h4>
-							<iframe src="../admin/buku/<?php echo $data['link']; ?>" width="100%" height="600px" frameborder="0" allowfullscreen></iframe>
+							<iframe src="http://localhost/digi-book/admin/buku/<?php echo $data['link']; ?>" width="100%" height="600px" frameborder="0" allowfullscreen></iframe>
 						</div>
 					</div>
 					<div class="col-md-3 side-bar">
@@ -141,7 +141,7 @@
 								while ($data = mysqli_fetch_array($query)) {
 								?>
 									<li>
-										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
+										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="http://localhost/digi-book/admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
 										<p> <?= $data['judul'] ?> </p>
 									</li>
 									<div class="clearfix"> <?php } ?>
@@ -169,7 +169,7 @@
 							?>
 								<ul>
 									<li class="ent">
-										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
+										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="http://localhost/digi-book/admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
 									</li>
 									<li>
 										<a href="single.php?id=<?php echo $data['isbn'] ?>"> <b><?= $data['judul'] ?></b> </a>
@@ -197,7 +197,7 @@
 								foreach ($dataMight as $bukuMight) {
 								?>
 									<div class="grid-might">
-										<a href="single.php?id=<?php echo $bukuMight['isbn'] ?>"><img src="../admin/foto/<?php echo $bukuMight['photo']; ?>" class="img-responsive" alt=""></a>
+										<a href="single.php?id=<?php echo $bukuMight['isbn'] ?>"><img src="http://localhost/digi-book/admin/foto/<?php echo $bukuMight['photo']; ?>" class="img-responsive" alt=""></a>
 									</div>
 									<div class="might-top">
 										<p><?php echo $bukuMight['judul']; ?></p>

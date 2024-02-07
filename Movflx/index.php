@@ -85,8 +85,7 @@
                                 </div>
                                 <div class="header-action d-none d-md-block">
                                     <ul>
-                                        <li class="header-search"><a href="#" data-toggle="modal"
-                                                data-target="#search-modal"><i class="fas fa-search"></i></a></li>
+                                        <li class="header-search"><a href="#" data-toggle="modal" data-target="#search-modal"><i class="fas fa-search"></i></a></li>
                                         <li class="header-lang">
                                             <form action="#">
                                                 <div class="icon"><i class="flaticon-globe"></i></div>
@@ -109,8 +108,7 @@
                             <div class="close-btn"><i class="fas fa-times"></i></div>
 
                             <nav class="menu-box">
-                                <div class="nav-logo"><a href="index.html"><img src="img/logo/logo.png" alt=""
-                                            title=""></a>
+                                <div class="nav-logo"><a href="index.html"><img src="img/logo/logo.png" alt="" title=""></a>
                                 </div>
                                 <div class="menu-outer">
                                     <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
@@ -161,7 +159,8 @@
                         <div class="banner-content">
                             <h6 class="sub-title wow fadeInUp" data-wow-delay=".2s" data-wow-duration="1.8s">Movflx</h6>
                             <h2 class="title wow fadeInUp" data-wow-delay=".4s" data-wow-duration="1.8s">Unlimited
-                                <span>Movie</span>, TVs Shows, & More.</h2>
+                                <span>Movie</span>, TVs Shows, & More.
+                            </h2>
                             <div class="banner-meta wow fadeInUp" data-wow-delay=".6s" data-wow-duration="1.8s">
                                 <ul>
                                     <li class="quality">
@@ -178,9 +177,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                class="banner-btn btn popup-video wow fadeInUp" data-wow-delay=".8s"
-                                data-wow-duration="1.8s"><i class="fas fa-play"></i> Watch Now</a>
+                            <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="banner-btn btn popup-video wow fadeInUp" data-wow-delay=".8s" data-wow-duration="1.8s"><i class="fas fa-play"></i> Watch Now</a>
                         </div>
                     </div>
                 </div>
@@ -203,16 +200,13 @@
                         <div class="ucm-nav-wrap">
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" id="tvShow-tab" data-toggle="tab" href="#tvShow"
-                                        role="tab" aria-controls="tvShow" aria-selected="true">TV Shows</a>
+                                    <a class="nav-link active" id="tvShow-tab" data-toggle="tab" href="#tvShow" role="tab" aria-controls="tvShow" aria-selected="true">TV Shows</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="movies-tab" data-toggle="tab" href="#movies" role="tab"
-                                        aria-controls="movies" aria-selected="false">Movies</a>
+                                    <a class="nav-link" id="movies-tab" data-toggle="tab" href="#movies" role="tab" aria-controls="movies" aria-selected="false">Movies</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" id="animation-tab" data-toggle="tab" href="#animation" role="tab"
-                                        aria-controls="animation" aria-selected="false">animation</a>
+                                    <a class="nav-link" id="animation-tab" data-toggle="tab" href="#animation" role="tab" aria-controls="animation" aria-selected="false">animation</a>
                                 </li>
                             </ul>
                         </div>
@@ -427,35 +421,35 @@
                             </div>
                         </div>
                     </div>
-                     <?php 
-        require '../admin/koneksi.php';
-		$query = mysqli_query($koneksi,"SELECT * FROM film WHERE gendre_film='animation'");
-		while ($data = mysqli_fetch_array($query)) {
-			?>
-                    <div class="tab-pane fade" id="animation" role="tabpanel" aria-labelledby="animation-tab">
-                        <div class="ucm-active owl-carousel">
-                            <div class="movie-item mb-50">
-                                <div class="movie-poster">
-                                    <a href="movie-details.html"><img src="../admin/foto/<?php echo $data['photo_film']; ?>" alt=""></a>
-                                </div>
-                                <div class="movie-content">
-                                    <div class="top">
-                                        <h5 class="title"><a href="movie-details.html"><?php echo $data['name_film']; ?></a></h5>
-                                        <span class="date">2021</span>
+                    <?php
+                    require '../admin/koneksi.php';
+                    $query = mysqli_query($koneksi, "SELECT * FROM film WHERE gendre_film='animation'");
+                    while ($data = mysqli_fetch_array($query)) {
+                    ?>
+                        <div class="tab-pane fade" id="animation" role="tabpanel" aria-labelledby="animation-tab">
+                            <div class="ucm-active owl-carousel">
+                                <div class="movie-item mb-50">
+                                    <div class="movie-poster">
+                                        <a href="movie-details.html"><img src="http://localhost/digi-book/admin/foto/<?php echo $data['photo_film']; ?>" alt=""></a>
                                     </div>
-                                    <div class="bottom">
-                                        <ul>
-                                            <li><span class="quality">hd</span></li>
-                                            <li>
-                                                <span class="duration"><i class="far fa-clock"></i> 128 min</span>
-                                                <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
-                                            </li>
-                                        </ul>
+                                    <div class="movie-content">
+                                        <div class="top">
+                                            <h5 class="title"><a href="movie-details.html"><?php echo $data['name_film']; ?></a></h5>
+                                            <span class="date">2021</span>
+                                        </div>
+                                        <div class="bottom">
+                                            <ul>
+                                                <li><span class="quality">hd</span></li>
+                                                <li>
+                                                    <span class="duration"><i class="far fa-clock"></i> 128 min</span>
+                                                    <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php } ?>
                 </div>
             </div>
@@ -469,8 +463,7 @@
                     <div class="col-lg-6">
                         <div class="services-img-wrap">
                             <img src="img/images/services_img.jpg" alt="">
-                            <a href="img/images/services_img.jpg" class="download-btn" download>Download <img
-                                    src="fonts/download.svg" alt=""></a>
+                            <a href="img/images/services_img.jpg" class="download-btn" download>Download <img src="fonts/download.svg" alt=""></a>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -738,8 +731,7 @@
                                     <p>Active Customer</p>
                                 </div>
                             </div>
-                            <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="btn popup-video"><i
-                                    class="fas fa-play"></i> Watch Now</a>
+                            <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="btn popup-video"><i class="fas fa-play"></i> Watch Now</a>
                         </div>
                     </div>
                     <div class="col-xl-7 col-lg-6">
@@ -947,8 +939,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
                         <div class="copyright-text">
-                            <p>Copyright &copy; 2021 All Rights Reserved, Share By <a
-                                    href="https://nullphpscript.com">HTML Template</a></p>
+                            <p>Copyright &copy; 2021 All Rights Reserved, Share By <a href="https://nullphpscript.com">HTML Template</a></p>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6">

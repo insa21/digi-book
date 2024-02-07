@@ -131,7 +131,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM buku LIMIT $offset, $itemsPerPage
 						<!-- Grid Konten -->
 						<div class="content-grids">
 							<div class="content-grid">
-								<a class="play-icon popup-with-zoom-anim" href="single.php?id=<?= $data['isbn']; ?>"><img src="../admin/foto/<?= $data['photo']; ?>" title="album-name" /></a>
+								<a class="play-icon popup-with-zoom-anim" href="single.php?id=<?= $data['isbn']; ?>"><img src="http://localhost/digi-book/admin/foto/<?= $data['photo']; ?>" title="album-name" /></a>
 								<h3><b><?= $data['judul']; ?></b></h3>
 								<ul>
 									<li><a href="#"><img src="images/likes.png" title="image-name" /></a></li>

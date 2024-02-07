@@ -21,7 +21,7 @@ if (isset($_POST['kategori'])) {
     while ($data = mysqli_fetch_assoc($result)) {
         echo '<div class="review">
                 <div class="movie-pic">
-                    <a href="single.php?id=' . $data["isbn"] . '"><img src="../admin/foto/' .  $data["photo"] . '" alt="" /></a>
+                    <a href="single.php?id=' . $data["isbn"] . '"><img src="http://localhost/digi-book/admin/foto/' .  $data["photo"] . '" alt="" /></a>
                 </div>
                 <div class="review-info">
                     <a class="span" href="single.php?id=' . $data['isbn'] . '">' . $data['judul'] . '</a>

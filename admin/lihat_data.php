@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Mulai pengembangan Anda dengan Dashboard untuk Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>InsaBuku | Nonton Gratis Tanpa Karcis</title>
+  <title>DigiBook | Lihat Data Buku</title>
   <link rel="icon" href="backend/assets/img/brand/logo3.png" type="image/png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
   <link rel="stylesheet" href="backend/assets/vendor/nucleo/css/nucleo.css" type="text/css">
@@ -62,7 +62,7 @@
             <li class="nav-item">
               <a class="nav-link" href="calender.php">
                 <i class="ni ni-calendar-grid-58 text-red"></i>
-                <span class="nav-link-text">Calendar</span>
+                <span class="nav-link-text">Kalendar</span>
               </a>
             </li>
           </ul>
@@ -183,9 +183,9 @@
               <!-- <h6 class="h2 text-white d-inline-block mb-0">Default</h6> -->
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                  <li class="breadcrumb-item"><a href="#"><i class="fas fa-home"></i></a></li>
-                  <li class="breadcrumb-item"><a href="dashboard.php">Dashboards</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Lihat Data Buku</li>
+                  <li class="breadcrumb-item"><a href="index.php"><i class="fas fa-home"></i></a></li>
+                  <li class="breadcrumb-item"><a href="#">Lihat Data Buku</a></li>
+                  <!-- <li class="breadcrumb-item active" aria-current="page">Lihat Data Buku</li> -->
                 </ol>
               </nav>
             </div>

@@ -104,7 +104,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								while ($data = mysqli_fetch_array($query)) {
 								?>
 									<li>
-										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
+										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="http://localhost/digi-book/admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
 										<p> <?= $data['judul'] ?> </p>
 									</li>
 									<div class="clearfix"> <?php } ?>
@@ -132,7 +132,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							?>
 								<ul>
 									<li class="ent">
-										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="../admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
+										<a href="single.php?id=<?php echo $data['isbn'] ?>"><img src="http://localhost/digi-book/admin/foto/<?php echo $data['photo']; ?>" alt="" /></a>
 									</li>
 									<li>
 										<a href="single.php?id=<?php echo $data['isbn'] ?>"> <b><?= $data['judul'] ?></b> </a>
@@ -160,7 +160,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								foreach ($dataMight as $bukuMight) {
 								?>
 									<div class="grid-might">
-										<a href="single.php?id=<?php echo $bukuMight['isbn'] ?>"><img src="../admin/foto/<?php echo $bukuMight['photo']; ?>" class="img-responsive" alt=""></a>
+										<a href="single.php?id=<?php echo $bukuMight['isbn'] ?>"><img src="http://localhost/digi-book/admin/foto/<?php echo $bukuMight['photo']; ?>" class="img-responsive" alt=""></a>
 									</div>
 									<div class="might-top">
 										<p><?php echo $bukuMight['judul']; ?></p>

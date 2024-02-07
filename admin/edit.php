@@ -36,7 +36,7 @@ if (isset($_GET['isbn'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Mulai pengembangan Anda dengan Dashboard untuk Bootstrap 4.">
     <meta name="author" content="Creative Tim">
-    <title>InsaBuku | Nonton Gratis Tanpa Karcis</title>
+    <title>DigiBook | Edit Data Buku</title>
     <link rel="icon" href="backend/assets/img/brand/logo3.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
     <link rel="stylesheet" href="backend/assets/vendor/nucleo/css/nucleo.css" type="text/css">
@@ -92,7 +92,7 @@ if (isset($_GET['isbn'])) {
                         <li class="nav-item">
                             <a class="nav-link" href="calender.php">
                                 <i class="ni ni-calendar-grid-58 text-red"></i>
-                                <span class="nav-link-text">Calendar</span>
+                                <span class="nav-link-text">Kalendar</span>
                             </a>
                         </li>
                     </ul>
