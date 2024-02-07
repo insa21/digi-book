@@ -55,8 +55,8 @@
 						<p>Nonton Gratis <br>Tanpa Karcis</p>
 					</div>
 					<div class="search v-search">
-						<form>
-							<input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}" />
+						<form action="hasil_pencarian.php" method="GET">
+							<input type="text" name="query" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}" />
 							<input type="submit" value="">
 						</form>
 					</div>
@@ -123,7 +123,8 @@
 						<div class="best-review">
 							<h4>SYNOPSIS :</h4>
 							<p><?php echo $data['synopsis']; ?></p>
-							<p><span><?php echo $data['penulis']; ?></span> <?php echo $data['tanggal_terbit']; ?> at <?php echo $data['jumlah_halaman']; ?> AM </p>
+							<!-- <p><span><?php echo $data['penulis']; ?></span> -->
+							<!-- <?php echo $data['tanggal_terbit']; ?> at <?php echo $data['jumlah_halaman']; ?> AM </p> -->
 						</div>
 						<div class="story-review">
 							<h4>Review Book :</h4>

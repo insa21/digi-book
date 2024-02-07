@@ -24,7 +24,7 @@ if (isset($_POST['kategori'])) {
                     <a href="single.php?id=' . $data["isbn"] . '"><img src="../admin/foto/' .  $data["photo"] . '" alt="" /></a>
                 </div>
                 <div class="review-info">
-                    <a class="span" href="single.php?id=' . $data['isbn'] . '">' . $data['judul'] . '<i>Review Buku</i></a>
+                    <a class="span" href="single.php?id=' . $data['isbn'] . '">' . $data['judul'] . '</a>
                     <p class="dirctr"><a href="single.php?id=' . $data['isbn'] . '">' . $data['penulis'] . ', </a>' . $data['tanggal_terbit'] . '</p>
                     <p class="info"><b>ISBN:</b>&nbsp;&nbsp;' . $data['isbn'] . '</p>
                     <p class="info"><b>JUDUL:</b>&nbsp;&nbsp;' . $data['judul'] . '</p>

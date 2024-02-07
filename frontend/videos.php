@@ -1,29 +1,29 @@
 <?php
-// Database connection file
+// File koneksi database
 include '../admin/koneksi.php';
 
-// Number of items per page
-$itemsPerPage = 8;
+// Jumlah item per halaman
+$itemsPerPage = 12;
 
-// Get the total count of records
+// Menghitung total jumlah data
 $resultCountQuery = mysqli_query($koneksi, "SELECT COUNT(*) FROM buku");
 
 if ($resultCountQuery) {
 	$resultCount = mysqli_fetch_row($resultCountQuery)[0];
 } else {
-	die(mysqli_error($koneksi));
+	die("Kesalahan koneksi database: " . mysqli_error($koneksi));
 }
 
-// Calculate the total number of pages
+// Menghitung total halaman
 $totalPages = ceil($resultCount / $itemsPerPage);
 
-// Get the current page number from the URL, default to 1 if not set
+// Mendapatkan nomor halaman saat ini dari URL, default ke 1 jika tidak diatur
 $currentPage = isset($_GET['page']) && is_numeric($_GET['page']) ? $_GET['page'] : 1;
 
-// Calculate the SQL LIMIT starting number for the results on the current page
+// Menghitung nomor awal LIMIT SQL untuk hasil pada halaman saat ini
 $offset = ($currentPage - 1) * $itemsPerPage;
 
-// Query to fetch the records for the current page
+// Query untuk mengambil data untuk halaman saat ini
 $query = mysqli_query($koneksi, "SELECT * FROM buku LIMIT $offset, $itemsPerPage");
 ?>
 
@@ -48,6 +48,22 @@ $query = mysqli_query($koneksi, "SELECT * FROM buku LIMIT $offset, $itemsPerPage
 	<!-- jQuery -->
 	<script src="js/jquery.min.js"></script>
 
+	<script>
+		$(document).ready(function() {
+			$('.popup-with-zoom-anim').magnificPopup({
+				type: 'inline',
+				fixedContentPos: false,
+				fixedBgPos: true,
+				overflowY: 'auto',
+				closeBtnInside: true,
+				preloader: false,
+				midClick: true,
+				removalDelay: 300,
+				mainClass: 'my-mfp-zoom-in'
+			});
+		});
+	</script>
+
 	<script type="application/x-javascript">
 		addEventListener("load", function() {
 			setTimeout(hideURLbar, 0);
@@ -60,7 +76,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM buku LIMIT $offset, $itemsPerPage
 </head>
 
 <body>
-	<!-- Header Section -->
+	<!-- Bagian Header -->
 	<div class="full">
 		<div class="menu">
 			<ul>
@@ -79,71 +95,55 @@ $query = mysqli_query($koneksi, "SELECT * FROM buku LIMIT $offset, $itemsPerPage
 			</ul>
 		</div>
 
-		<!-- Main Content -->
+		<!-- Konten Utama -->
 		<div class="main">
 			<div class="video-content">
-				<!-- Top Header -->
+				<!-- Bagian Header Atas -->
 				<div class="top-header span_top">
 					<!-- Logo -->
 					<div class="logo">
 						<a href="index.html"><img height="55px" src="images/logo3.png" alt="" /></a>
 						<p>Nonton Gratis <br>Tanpa Karcis</p>
 					</div>
-					<!-- Search Form -->
+					<!-- Form Pencarian -->
 					<div class="search v-search">
-						<form>
-							<input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}" />
+						<form action="hasil_pencarian.php" method="GET">
+							<input type="text" name="query" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}" />
 							<input type="submit" value="">
 						</form>
 					</div>
 					<div class="clearfix"></div>
 				</div>
-				<!-- Right Content -->
+				<!-- Konten Kanan -->
 				<div class="right-content">
 					<div class="right-content-heading">
 						<div class="right-content-heading-left">
-							<h3 class="head">KOLEKSI VIDEO TERBARU</h3>
+							<h3 class="head">KOLEKSI BUKU TERBARU</h3>
 						</div>
 					</div>
 
-					<!-- Pop-up Box Styles -->
+					<!-- Gaya Kotak Pop-up -->
 					<link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
-					<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
-					<script>
-						$(document).ready(function() {
-							$('.popup-with-zoom-anim').magnificPopup({
-								type: 'inline',
-								fixedContentPos: false,
-								fixedBgPos: true,
-								overflowY: 'auto',
-								closeBtnInside: true,
-								preloader: false,
-								midClick: true,
-								removalDelay: 300,
-								mainClass: 'my-mfp-zoom-in'
-							});
-						});
-					</script>
 
 					<?php
-					while ($data = mysqli_fetch_array($query)) {
-						// Content Grids
-						echo '<div class="content-grids">';
-						echo '<div class="content-grid">';
-						echo '<a class="play-icon popup-with-zoom-anim" href="single.php?id=' . $data['isbn'] . '"><img src="../admin/foto/' . $data['photo'] . '" title="album-name" /></a>';
-						echo '<h3><b>' . $data['judul'] . '</b></h3>';
-						echo '<ul>';
-						echo '<li><a href="#"><img src="images/likes.png" title="image-name" /></a></li>';
-						echo '<li><a href="#"><img src="images/views.png" title="image-name" /></a></li>';
-						echo '<li><a href="#"><img src="images/link.png" title="image-name" /></a></li>';
-						echo '</ul>';
-						echo '<a href="single.php?id=' . $data['isbn'] . '" class="button play-icon text-center">Lihat Lebih Banyak</a>';
-						echo '</div>';
-						echo '<div id="small-dialog" class="mfp-hide">';
-						// echo '<iframe src="' . $data['link_film'] . '" frameborder="0" allowfullscreen></iframe>';
-						echo '</div>';
-						echo '</div>';
-					}
+					while ($data = mysqli_fetch_array($query)) :
+					?>
+						<!-- Grid Konten -->
+						<div class="content-grids">
+							<div class="content-grid">
+								<a class="play-icon popup-with-zoom-anim" href="single.php?id=<?= $data['isbn']; ?>"><img src="../admin/foto/<?= $data['photo']; ?>" title="album-name" /></a>
+								<h3><b><?= $data['judul']; ?></b></h3>
+								<ul>
+									<li><a href="#"><img src="images/likes.png" title="image-name" /></a></li>
+									<li><a href="#"><img src="images/views.png" title="image-name" /></a></li>
+									<li><a href="#"><img src="images/link.png" title="image-name" /></a></li>
+								</ul>
+								<a href="single.php?id=<?= $data['isbn']; ?>" class="button play-icon text-center">Lihat Lebih Banyak</a>
+							</div>
+							<div id="small-dialog" class="mfp-hide"></div>
+						</div>
+					<?php
+					endwhile;
 					?>
 
 					<!-- Pagination -->
@@ -168,7 +168,7 @@ $query = mysqli_query($koneksi, "SELECT * FROM buku LIMIT $offset, $itemsPerPage
 			<div class="footer">
 				<h6>Disclaimer : </h6>
 				<p class="claim">InsaFilm adalah layanan streaming yang menawarkan berbagai acara TV pemenang penghargaan, film, anime, dokumenter, dan banyak lagi di ribuan perangkat yang terhubung ke Internet.</p>
-				<a href="indrasaepudin212@mail.com">indrasaepudin212@mail.com</a>
+				<a href="mailto:indrasaepudin212@mail.com">indrasaepudin212@mail.com</a>
 				<div class="copyright">
 					<p>&copy; 2022 <a href="#">InsaFilm|IndraSaepudin</a></p>
 				</div>

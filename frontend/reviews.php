@@ -62,8 +62,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<p>Movie Theater</p>
 					</div>
 					<div class="search v-search">
-						<form>
-							<input type="text" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}" />
+						<form action="hasil_pencarian.php" method="GET">
+							<input type="text" name="query" value="Search.." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search..';}" />
 							<input type="submit" value="">
 						</form>
 					</div>

@@ -7,6 +7,30 @@ if (!isset($_SESSION['user_id'])) {
 }
 ?>
 
+<?php
+// Sertakan file koneksi.php
+include('koneksi.php');
+
+// Selanjutnya, lanjutkan dengan penggunaan $koneksi
+$query = "SELECT * FROM events";
+$result = $koneksi->query($query);
+
+
+// Inisialisasi array untuk menyimpan data event
+$events = array();
+
+// Periksa apakah query berhasil dijalankan
+if ($result) {
+    // Ambil data event satu per satu
+    while ($row = $result->fetch_assoc()) {
+        $events[] = $row;
+    }
+}
+
+// Tangkap data event dalam bentuk JSON
+$events_json = json_encode($events);
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -216,10 +240,20 @@ if (!isset($_SESSION['user_id'])) {
                         </div>
                     </div>
                     <!-- Modal - Add new event -->
-                    <!--* Modal header *-->
-                    <!--* Modal body *-->
-                    <!--* Modal footer *-->
-                    <!--* Modal init *-->
+                    <!-- Script Utama -->
+                    <?php
+                    // Sertakan file koneksi
+                    include 'koneksi.php';
+
+                    // Query SQL untuk mengambil data dari tabel_event
+                    $query = "SELECT * FROM tabel_event";
+                    $result = $koneksi->query($query);
+                    ?>
+
+                    <!-- Bagian HTML dengan data dinamis dari database -->
+                    <!-- Bagian HTML dengan data dinamis dari database -->
+
+                    <!-- Modal - Menambah Event -->
                     <div class="modal fade" id="new-event" tabindex="-1" role="dialog" aria-labelledby="new-event-label" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-secondary" role="document">
                             <div class="modal-content">
@@ -253,98 +287,191 @@ if (!isset($_SESSION['user_id'])) {
                             </div>
                         </div>
                     </div>
-                    <!-- Modal - Edit event -->
-                    <!--* Modal body *-->
 
-                    <!--* Modal footer *-->
-                    <!--* Modal init *-->
-                    <div class="modal fade" id="edit-event" tabindex="-1" role="dialog" aria-labelledby="edit-event-label" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-secondary" role="document">
-                            <div class="modal-content">
-                                <!-- Modal body -->
-                                <div class="modal-body">
-                                    <form class="edit-event--form">
-                                        <div class="form-group">
-                                            <label class="form-control-label">Event title</label>
-                                            <input type="text" class="form-control form-control-alternative edit-event--title" placeholder="Event Title">
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label d-block mb-3">Status color</label>
-                                            <div class="btn-group btn-group-toggle btn-group-colors event-tag mb-0" data-toggle="buttons">
-                                                <label class="btn bg-info active"><input type="radio" name="event-tag" value="bg-info" autocomplete="off" checked></label>
-                                                <label class="btn bg-warning"><input type="radio" name="event-tag" value="bg-warning" autocomplete="off"></label>
-                                                <label class="btn bg-danger"><input type="radio" name="event-tag" value="bg-danger" autocomplete="off"></label>
-                                                <label class="btn bg-success"><input type="radio" name="event-tag" value="bg-success" autocomplete="off"></label>
-                                                <label class="btn bg-default"><input type="radio" name="event-tag" value="bg-default" autocomplete="off"></label>
-                                                <label class="btn bg-primary"><input type="radio" name="event-tag" value="bg-primary" autocomplete="off"></label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label">Description</label>
-                                            <textarea class="form-control form-control-alternative edit-event--description textarea-autosize" placeholder="Event Desctiption"></textarea>
-                                            <i class="form-group--bar"></i>
-                                        </div>
-                                        <input type="hidden" class="edit-event--id">
-                                    </form>
-                                </div>
-                                <!-- Modal footer -->
-                                <div class="modal-footer">
-                                    <button class="btn btn-primary" data-calendar="update">Update</button>
-                                    <button class="btn btn-danger" data-calendar="delete">Delete</button>
-                                    <button class="btn btn-link ml-auto" data-dismiss="modal">Close</button>
+                    <?php
+                    try {
+                        // Query SQL untuk mengambil data dari tabel_event
+                        $query = "SELECT * FROM tabel_event";
+                        $result = $koneksi->query($query);
+
+                        // Periksa apakah query berhasil dijalankan
+                        if (!$result) {
+                            throw new Exception("Error in query: " . $koneksi->error);
+                        }
+
+                        // Periksa apakah ada data yang ditemukan
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) {
+                                echo '<div class="modal fade" id="edit-event-' . $row["id"] . '" tabindex="-1" role="dialog" aria-labelledby="edit-event-label" aria-hidden="true">';
+                                echo '<div class="modal-dialog modal-dialog-centered modal-secondary" role="document">';
+                                echo '<div class="modal-content">';
+                                echo '<div class="modal-body">';
+                                echo '<form class="edit-event--form">';
+                                echo '<input type="hidden" class="edit-event--id" name="edit-event--id" value="' . $row["id"] . '">';
+                                echo '<div class="form-group">';
+                                echo '<label class="form-control-label">Event title</label>';
+                                echo '<input type="text" class="form-control form-control-alternative edit-event--title" placeholder="Event Title" value="' . $row["event_title"] . '">';
+                                echo '</div>';
+                                echo '<div class="form-group">';
+                                echo '<label class="form-control-label d-block mb-3">Status color</label>';
+                                echo '<div class="btn-group btn-group-toggle btn-group-colors event-tag mb-0" data-toggle="buttons">';
+
+                                // Menentukan status color yang aktif sesuai dengan data dari database
+                                $colors = ["bg-info", "bg-warning", "bg-danger", "bg-success", "bg-default", "bg-primary"];
+                                foreach ($colors as $color) {
+                                    $checked = ($row["color_status"] == $color) ? "checked" : "";
+                                    echo '<label class="btn ' . $color . '"><input type="radio" name="event-tag" value="' . $color . '" autocomplete="off" ' . $checked . '></label>';
+                                }
+
+                                echo '</div>';
+                                echo '</div>';
+                                echo '<div class="form-group">';
+                                echo '<label class="form-control-label">Description</label>';
+                                echo '<textarea class="form-control form-control-alternative edit-event--description textarea-autosize" placeholder="Event Desctiption">' . $row["description"] . '</textarea>';
+                                echo '<i class="form-group--bar"></i>';
+                                echo '</div>';
+                                echo '</form>';
+                                echo '</div>';
+                                echo '<div class="modal-footer">';
+                                echo '<button class="btn btn-primary" data-calendar="update">Update</button>';
+                                echo '<button class="btn btn-danger" data-calendar="delete">Delete</button>';
+                                echo '<button class="btn btn-link ml-auto" data-dismiss="modal">Close</button>';
+                                echo '</div>';
+                                echo '</div>';
+                                echo '</div>';
+                                echo '</div>';
+                            }
+                        } else {
+                            echo 'Tidak ada data ditemukan.';
+                        }
+                    } catch (Exception $e) {
+                        echo 'Error: ' . $e->getMessage();
+                    }
+
+                    // Tutup koneksi database setelah selesai menggunakan
+                    $koneksi->close();
+                    ?>
+
+                    <!-- Footer -->
+                    <footer class="footer pt-0">
+                        <div class="row align-items-center justify-content-lg-between">
+                            <div class="col-lg-6">
+                                <div class="copyright text-center text-lg-left text-muted">
+                                    &copy; 2022 <a href="#" class="font-weight-bold ml-1" target="_blank">Indra Saepudin</a>
                                 </div>
                             </div>
+                            <div class="col-lg-6">
+                                <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                                    <li class="nav-item">
+                                        <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="https://www.creative-tim.com/license" class="nav-link" target="_blank">License</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    </footer>
                 </div>
             </div>
+            <!-- Argon Scripts -->
+            <!-- Core -->
+            <script src="../admin/backend/assets/vendor/jquery/dist/jquery.min.js"></script>
+            <script src="../admin/backend/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="../admin/backend/assets/vendor/js-cookie/js.cookie.js"></script>
+            <script src="../admin/backend/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+            <script src="../admin/backend/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js">
+            </script>
+            <!-- Optional JS -->
+            <script src="../admin/backend/assets/vendor/moment/min/moment.min.js"></script>
+            <script src="../admin/backend/assets/vendor/fullcalendar/dist/fullcalendar.min.js"></script>
+            <script src="../admin/backend/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
+            <!-- Argon JS -->
+            <script src="../admin/backend/assets/js/argon.js?v=1.1.0"></script>
+            <!-- Demo JS - remove this in your project -->
+            <script src="../admin/backend/assets/js/demo.min.js"></script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Menambahkan event listener untuk tombol "Add Event" pada modal tambah event
+                    document.querySelector('.new-event--add').addEventListener('click', function() {
+                        var title = document.querySelector('.new-event--title').value;
+                        var color = document.querySelector('.btn-group-colors input:checked').value;
+                        var startDate = document.querySelector('.new-event--start').value;
+                        var endDate = document.querySelector('.new-event--end').value;
+
+                        // Mengirim data ke server atau database menggunakan AJAX
+                        $.ajax({
+                            url: 'simpan_ke_database.php',
+                            type: 'POST',
+                            data: {
+                                title: title,
+                                color: color,
+                                startDate: startDate,
+                                endDate: endDate
+                            },
+                            success: function(response) {
+                                // Handle respon dari server jika diperlukan
+                                console.log('Data berhasil disimpan ke database');
+                            },
+                            error: function(error) {
+                                // Handle kesalahan jika diperlukan
+                                console.error('Terjadi kesalahan saat menyimpan data ke database');
+                            }
+                        });
+                    });
+
+                    $(document).ready(function() {
+                        $(".edit-event--form").submit(function(event) {
+                            event.preventDefault(); // Prevent the form from submitting via the browser
+
+                            var formData = {
+                                id: $(".edit-event--id").val(),
+                                title: $(".edit-event--title").val(),
+                                description: $(".edit-event--description").val(),
+                                statusColor: $('input[name="event-tag"]:checked').val()
+                            };
+
+                            $.ajax({
+                                type: "POST",
+                                url: "update_event.php", // replace with your endpoint
+                                data: formData,
+                                success: function(data) {
+                                    console.log('Submission was successful.');
+                                    console.log(data);
+                                },
+                                error: function(data) {
+                                    console.log('An error occurred.');
+                                    console.log(data);
+                                },
+                            });
+                        });
+                    });
 
 
 
-            <!-- Footer -->
-            <footer class="footer pt-0">
-                <div class="row align-items-center justify-content-lg-between">
-                    <div class="col-lg-6">
-                        <div class="copyright text-center text-lg-left text-muted">
-                            &copy; 2022 <a href="#" class="font-weight-bold ml-1" target="_blank">Indra Saepudin</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Blog</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="https://www.creative-tim.com/license" class="nav-link" target="_blank">License</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </footer>
-        </div>
-    </div>
-    <!-- Argon Scripts -->
-    <!-- Core -->
-    <script src="../admin/backend/assets/vendor/jquery/dist/jquery.min.js"></script>
-    <script src="../admin/backend/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../admin/backend/assets/vendor/js-cookie/js.cookie.js"></script>
-    <script src="../admin/backend/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
-    <script src="../admin/backend/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js">
-    </script>
-    <!-- Optional JS -->
-    <script src="../admin/backend/assets/vendor/moment/min/moment.min.js"></script>
-    <script src="../admin/backend/assets/vendor/fullcalendar/dist/fullcalendar.min.js"></script>
-    <script src="../admin/backend/assets/vendor/sweetalert2/dist/sweetalert2.min.js"></script>
-    <!-- Argon JS -->
-    <script src="../admin/backend/assets/js/argon.js?v=1.1.0"></script>
-    <!-- Demo JS - remove this in your project -->
-    <script src="../admin/backend/assets/js/demo.min.js"></script>
+                    // Inisialisasi FullCalendar
+                    $('#calendar').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay'
+                        },
+                        defaultView: 'month',
+                        editable: true, // Aktifkan fitur pengeditan
+
+                        // Ambil data event dari variabel JSON
+                        events: <?php echo $events_json; ?>
+                    });
+                });
+            </script>
+
 </body>
 
 </html>
